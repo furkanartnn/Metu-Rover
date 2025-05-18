@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Servo Kontrol</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .servo-control { margin: 10px; padding: 10px; border: 1px solid #ccc; border-radius: 5px; }
+        button { padding: 8px 15px; background: #4CAF50; color: white; border: none; cursor: pointer; }
+        button:hover { background: #45a049; }
+    </style>
+</head>
+<body>
+    <h1>Servo Motor Kontrol</h1>
+    
+    <div class="servo-control">
+        <h3>Servo 1</h3>
+        <input type="range" min="0" max="180" value="90" id="servo1-slider">
+        <span id="servo1-angle">90°</span>
+        <button onclick="adjustServo('1', document.getElementById('servo1-slider').value)">
+            Ayarı Gönder
+        </button>
+    </div>
+
+    <div class="servo-control">
+        <h3>Servo 2</h3>
+        <input type="range" min="0" max="180" value="90" id="servo2-slider">
+        <span id="servo2-angle">90°</span>
+        <button onclick="adjustServo('2', document.getElementById('servo2-slider').value)">
+            Ayarı Gönder
+        </button>
+    </div>
+
+    <script>
+        // Slider değerlerini göster
+        document.getElementById('servo1-slider').addEventListener('input', function() {
+            document.getElementById('servo1-angle').textContent = this.value + '°';
+        });
+        document.getElementById('servo2-slider').addEventListener('input', function() {
+            document.getElementById('servo2-angle').textContent = this.value + '°';
+        });
+
+        // Servo kontrol fonksiyonu
+        function adjustServo(servoId, angle) {
+            fetch('http://10.42.0.1:8000/servo_control', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ servo_id: servoId, angle: parseInt(angle) })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    console.log(`Servo ${servoId} → ${angle}°`);
+                } else {
+                    alert(`HATA: ${data.error}`);
+                }
+            })
+            .catch(error => {
+                console.error("İstek hatası:", error);
+                alert("Sunucuya bağlanılamadı!");
+            });
+        }
+    </script>
+</body>
+</html>
