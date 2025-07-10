@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>gps_publisher</name>
+  <version>0.0.1</version>
+  <description>GPS verisini ROS 2 topic olarak yayınlayan node</description>
+  <maintainer email="furkan@example.com">Furkan</maintainer>
+  <license>MIT</license>
+
+  <buildtool_depend>ament_python</buildtool_depend>
+
+  <depend>rclpy</depend>
+  <depend>sensor_msgs</depend>
+  <depend>pyserial</depend>
+  <depend>python3-websockets</depend>
+
+  <test_depend>ament_copyright</test_depend>
+  <test_depend>ament_flake8</test_depend>
+  <test_depend>ament_pep257</test_depend>
+  <test_depend>pytest</test_depend>
+
+  <export>
+    <build_type>ament_python</build_type>
+  </export>
+</package>
+
